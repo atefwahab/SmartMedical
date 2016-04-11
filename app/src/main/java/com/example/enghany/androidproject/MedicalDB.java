@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.example.enghany.androidproject.dato.User;
+
 import java.util.ArrayList;
 
 /**
@@ -30,7 +32,7 @@ public class MedicalDB extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
 
         db.execSQL("CREATE TABLE Users (Id INTEGER PRIMARY Key AUTOINCREMENT, FirstName varchar(50), LastName varchar(50)," +
-                "Password varchar(50) ,Gender varchar(50) ,Email varchar(50),BirthDate long);");
+                "Password varchar(50) ,Gender INTEGER ,Email varchar(50),BirthDate long);");
 
         db.execSQL("CREATE TABLE Medicine(Id INTEGER PRIMARY Key AUTOINCREMENT,Name varchar(50), image Blob ,type varchar(20)," +
                 "StartDate  long, time long,dose INTEGER )");
@@ -127,4 +129,12 @@ public class MedicalDB extends SQLiteOpenHelper {
 
     }
 
+    /**
+     * @author atef
+     * this method used to register the user
+     * @param user
+     */
+    public void registerUser(User user){
+        String query ="";
+    }
 }

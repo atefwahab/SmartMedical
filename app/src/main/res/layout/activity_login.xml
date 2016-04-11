@@ -7,28 +7,23 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="wmad.iti.medicalassisstantfinal.LoginActivity">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Login"
-        android:id="@+id/textView2"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="35dp" />
+    tools:context="wmad.iti.medicalassisstantfinal.LoginActivity"
+    android:clickable="false"
+    android:background="#ffffff">
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:typeface="sans"
         android:inputType="textPersonName"
         android:ems="10"
         android:id="@+id/emailEditText"
-        android:layout_marginTop="37dp"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/textView2"
         android:editable="true"
-        android:hint="Enter Email" />
+        android:hint="Enter Email"
+        android:layout_below="@+id/imageView2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="100dp" />
 
     <EditText
         android:layout_width="match_parent"
@@ -37,23 +32,40 @@
         android:ems="10"
         android:id="@+id/passwordEditText"
         android:hint="Enter Password"
-        android:layout_marginTop="43dp"
         android:layout_below="@+id/emailEditText"
-        />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="20dp" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Login"
         android:id="@+id/loginButton"
-        android:layout_marginTop="77dp"
-        android:layout_below="@+id/passwordEditText" />
-
-    <Button
-        android:layout_width="match_parent"
+        android:layout_marginTop="40dp"
+        android:layout_below="@+id/passwordEditText"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="#1DE9B6" />
+    <TextView android:id="@+id/registerButton"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Register"
-        android:id="@+id/registerButton"
+        android:text="No account yet? Create one"
+        android:gravity="center"
+        android:textSize="16dip"
         android:layout_below="@+id/loginButton"
-        />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="20dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView2"
+        android:src="@drawable/logo"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp" />
+
+
 </RelativeLayout>

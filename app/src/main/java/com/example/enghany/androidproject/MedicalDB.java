@@ -18,6 +18,15 @@ public class MedicalDB extends SQLiteOpenHelper {
 
     static int DBVersion=4;
     static String DBSchema = "projectDB";
+    private static String USER_FIRSTNAME="FirstName";
+    private static String USER_LASTNAME="LastName";
+    private static String USER_EMAIL="Email";
+    private static String USER_PASSWORD="Password";
+    private static String USER_GENDER="Gender";
+    private static String USER_BIRTHDATE="BirthDate";
+    private static String TABLE_USERS = "Users";
+
+
 
 
 
@@ -135,6 +144,65 @@ public class MedicalDB extends SQLiteOpenHelper {
      * @param user
      */
     public void registerUser(User user){
-        String query ="";
+        // get the writableDatabase.
+        SQLiteDatabase sqLiteDatabase=this.getWritableDatabase();
+        // prepare contents that will be inserted ..
+        ContentValues contentValues=new ContentValues();
+
+        contentValues.put(MedicalDB.USER_FIRSTNAME,user.getFirstname());
+        contentValues.put(MedicalDB.USER_LASTNAME,user.getLastname());
+        contentValues.put(MedicalDB.USER_EMAIL,user.getEmail());
+        contentValues.put(MedicalDB.USER_PASSWORD,user.getPassword());
+        contentValues.put(MedicalDB.USER_GENDER,user.getGender());
+        contentValues.put(MedicalDB.USER_BIRTHDATE,user.getBirthdate());
+
+        // insert into db
+        sqLiteDatabase.insert(MedicalDB.TABLE_USERS, null, contentValues);
+
+        // close connection
+        sqLiteDatabase.close();
+
+    }
+
+    /**
+     * @author Atef
+     * this method is used to check login information ..
+     * @param email
+     * @param password
+     * @return
+     */
+    public boolean login(String email,String password){
+        boolean flag = false;
+
+        // get the database object
+        SQLiteDatabase sqLiteDatabase=this.getReadableDatabase();
+
+        // prepare your columns == Select id,name
+        String[] columns={MedicalDB.USER_PASSWORD};
+
+        String whereClause=USER_EMAIL +"=?";
+        String [] args =new String[]{email};
+
+
+        // Cursor to receive the retrive data ===
+        Cursor cursor=sqLiteDatabase.query(MedicalDB.TABLE_USERS,columns,whereClause,args,null,null,null);
+
+
+
+        // get values from cursor
+        while (cursor.moveToNext()){
+
+
+            if(cursor.getString(0).equals(password)){
+
+                flag = true;
+            }
+
+
+
+
+        }
+
+        return flag;
     }
 }

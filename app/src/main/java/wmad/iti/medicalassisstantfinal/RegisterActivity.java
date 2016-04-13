@@ -4,16 +4,22 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
+import com.example.enghany.androidproject.MainActivity;
+import com.example.enghany.androidproject.MedicalDB;
 import com.example.enghany.androidproject.R;
+import com.example.enghany.androidproject.dato.User;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -32,7 +38,18 @@ public class RegisterActivity extends Activity implements BirthdateInterface,Ada
     static RegisterActivity registerActivity;
     // Calendar Birthday ..
     Calendar birthday;
-    int gender;
+    int gender=-1;
+    // button for perform registration operation
+    Button registerButton;
+    EditText emailEditText;
+    EditText firstnameEditText;
+    EditText lastnameEditText;
+    EditText passwordEditText;
+    EditText rePasswordEditText;
+
+    // user object
+    User user;
+
 
 
     @Override
@@ -42,6 +59,12 @@ public class RegisterActivity extends Activity implements BirthdateInterface,Ada
 
 
         birthdayEditText = (EditText) findViewById(R.id.birthdayEditText);
+        registerButton = (Button) findViewById(R.id.registerButton);
+        emailEditText = (EditText) findViewById(R.id.emailEditText);
+        firstnameEditText = (EditText)findViewById(R.id.firstnameEditText);
+        lastnameEditText = (EditText) findViewById(R.id.lastnameEditText);
+        passwordEditText = (EditText) findViewById(R.id.firstPasswordEditText);
+        rePasswordEditText = (EditText) findViewById(R.id.secondPasswordEditText);
 
         // get spinner object
         Spinner genderSpinner = (Spinner) findViewById(R.id.genderSpinner);
@@ -72,6 +95,29 @@ public class RegisterActivity extends Activity implements BirthdateInterface,Ada
 
         //DatePicker datePicker = (DatePicker) findViewById( R.id.datePicker);
 
+        /**
+         * @author Atef
+         * this method perform registration
+         */
+        registerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(validate()){
+
+                    new MedicalDB(getApplicationContext()).registerUser(user);
+                    // move to home ..
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(intent);
+
+
+
+                }
+                else{
+
+                    Toast.makeText(getApplicationContext(),"Invalid Fields Found",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
 
     }
@@ -181,4 +227,80 @@ public class RegisterActivity extends Activity implements BirthdateInterface,Ada
     }
 
 
+
+    /**
+     * @author Atef
+     * this method used to validate the filed
+     */
+    private boolean validate(){
+        boolean flag =true;
+        user = new User();
+
+
+        // check if email field is not empty ..
+        if(!emailEditText.getText().toString().equals("")){
+
+            user.setEmail(emailEditText.getText().toString());
+        }else{
+            flag = false;
+        }
+
+        // check if first name is not empty ..
+        if(!firstnameEditText.getText().toString().equals("")){
+
+            user.setFirstname(firstnameEditText.getText().toString());
+        }
+        else{
+            flag =false;
+        }
+
+
+        // check if lastname is not empty ..
+        if(!lastnameEditText.getText().toString().equals("")){
+
+            user.setLastname(lastnameEditText.getText().toString());
+        }else{
+            flag = false;
+        }
+
+        // check if password and repassword is not empty
+        if(!passwordEditText.getText().toString().equals("")&&!rePasswordEditText.getText().toString().equals("")){
+
+            if(passwordEditText.getText().toString().equals(rePasswordEditText.getText().toString())){
+
+                user.setPassword(passwordEditText.getText().toString());
+            }else{
+                flag =false;
+
+            }
+
+        }else{
+
+            flag = false;
+        }
+
+
+        // check birthday
+        if(birthday!=null){
+            user.setBirthdate(birthday.getTimeInMillis());
+        }else{
+            flag =false;
+
+        }
+
+
+        // check if gender is choosen
+        if(gender==0||gender==1){
+
+            user.setGender(gender);
+
+        }else{
+            flag =false;
+        }
+
+
+
+
+        return flag;
+    }
 }
